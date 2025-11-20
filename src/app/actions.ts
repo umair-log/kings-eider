@@ -35,6 +35,11 @@ export async function getCampaignAnalytics(
         return []; // Return empty array if response body is empty
     }
     const data = JSON.parse(text);
+
+    // If the data is an empty object, treat it as an empty array of campaigns
+    if (typeof data === 'object' && data !== null && !Array.isArray(data) && Object.keys(data).length === 0) {
+      return [];
+    }
     
     if (!Array.isArray(data)) {
         console.error("API did not return an array:", data);
