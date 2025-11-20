@@ -56,7 +56,7 @@ export function LeadsTable({ data }: LeadsTableProps) {
       <CardHeader>
         <CardTitle>Leads</CardTitle>
         <CardDescription>
-          A list of all available leads.
+          Showing the last 50 leads. To view all leads, click the button in the header.
         </CardDescription>
       </CardHeader>
       <CardContent>
