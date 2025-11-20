@@ -29,8 +29,12 @@ export async function getCampaignAnalytics(
     if (!response.ok) {
       return { error: `API request failed with status ${response.status}. Please check the API endpoint and your request.` };
     }
-
-    const data = await response.json();
+    
+    const text = await response.text();
+    if (!text) {
+        return []; // Return empty array if response body is empty
+    }
+    const data = JSON.parse(text);
     
     if (!Array.isArray(data)) {
         console.error("API did not return an array:", data);
@@ -40,6 +44,9 @@ export async function getCampaignAnalytics(
     return data as Campaign[];
   } catch (error) {
     console.error("Error fetching campaign analytics:", error);
+    if (error instanceof SyntaxError) {
+        return { error: "Failed to parse analytics data. The API may be returning invalid JSON."};
+    }
     if (error instanceof TypeError && error.message.includes('fetch failed')) {
         return { error: "Network error: Failed to connect to the analytics API. Please check your network connection or the API endpoint." };
     }
