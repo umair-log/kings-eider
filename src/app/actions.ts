@@ -63,3 +63,38 @@ export async function getCampaignAnalytics(
     return { error: "An unexpected error occurred while fetching campaign data." };
   }
 }
+
+export async function runAutomation(
+  city: string
+): Promise<{ success: boolean; message: string }> {
+  const url = "https://n8n-txdlu-u54150.vm.elestio.app/webhook/run-automation";
+  
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ city }),
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        return { success: false, message: `API request failed with status ${response.status}: ${errorText}` };
+    }
+
+    const data = await response.json();
+
+    if (data.Response === "Done") {
+      return { success: true, message: "Automation complete! New leads should now be available in your Google Sheet." };
+    } else {
+      return { success: false, message: data.Response || "An unknown error occurred during automation." };
+    }
+  } catch (error) {
+    console.error("Error running automation:", error);
+    if (error instanceof SyntaxError) {
+        return { success: false, message: "Failed to parse the automation response. The API may have returned invalid JSON."};
+    }
+    return { success: false, message: "An unexpected error occurred while running the automation." };
+  }
+}
