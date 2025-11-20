@@ -77,7 +77,7 @@ export function LeadsTable({ data }: LeadsTableProps) {
                   <TableCell>{lead["Property Type"]}</TableCell>
                   <TableCell>
                     <div className="flex flex-col">
-                        {lead.All_Emails.split(',').filter(e => e).map((email) => (
+                        {(lead["All Emails"] || "").split(',').filter(e => e).map((email) => (
                             <Badge key={email} variant="outline" className="mb-1 w-fit">{email}</Badge>
                         ))}
                     </div>
