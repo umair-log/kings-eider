@@ -16,3 +16,31 @@ export type Campaign = {
   total_opportunities: number;
   total_opportunity_value: number;
 };
+
+export type Lead = {
+  row_number: number;
+  "Property Owner Name": string;
+  Line1: string;
+  Line2: string;
+  Attom_ID: number;
+  Apify: string;
+  Email1: string;
+  Email2: string;
+  Email3: string;
+  Email4: string;
+  Email5: string;
+  Age: number | string;
+  Born: string;
+  "Previous Addresses": string;
+  Phone: string;
+  Relatives: string;
+  "Current Address": string;
+  "All Emails": string;
+  Valid_Emails: string;
+  Rooms: string;
+  Size: string;
+  "Property Type": string;
+  Gmail: string;
+  Valid_email: string;
+  "AI Message": string;
+};

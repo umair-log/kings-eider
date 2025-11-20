@@ -1,6 +1,6 @@
 "use server";
 
-import type { Campaign } from "@/lib/types";
+import type { Campaign, Lead } from "@/lib/types";
 
 export async function getCampaignAnalytics(
   startDate: string,
@@ -96,5 +96,29 @@ export async function runAutomation(
         return { success: false, message: "Failed to parse the automation response. The API may have returned invalid JSON."};
     }
     return { success: false, message: "An unexpected error occurred while running the automation." };
+  }
+}
+
+
+export async function getLeads(): Promise<Lead[] | { error: string }> {
+  const url = "https://n8n-txdlu-u54150.vm.elestio.app/webhook/get-leads";
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
+
+    if (!response.ok) {
+      return { error: `API request failed with status ${response.status}.` };
+    }
+
+    const data = await response.json();
+    return data as Lead[];
+  } catch (error) {
+    console.error("Error fetching leads:", error);
+    return { error: "An unexpected error occurred while fetching leads." };
   }
 }
