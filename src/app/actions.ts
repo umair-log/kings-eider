@@ -40,9 +40,14 @@ export async function getCampaignAnalytics(
     if (typeof data === 'object' && data !== null && !Array.isArray(data) && Object.keys(data).length === 0) {
       return [];
     }
+
+    // If the data is a single object (but not an empty one), wrap it in an array
+    if (typeof data === 'object' && data !== null && !Array.isArray(data)) {
+        return [data as Campaign];
+    }
     
     if (!Array.isArray(data)) {
-        console.error("API did not return an array:", data);
+        console.error("API did not return an array or a single object:", data);
         return { error: "The analytics API returned an unexpected data format." };
     }
     
