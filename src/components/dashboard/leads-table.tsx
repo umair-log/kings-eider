@@ -73,16 +73,22 @@ export function LeadsTable({ data }: LeadsTableProps) {
               {data.map((lead) => (
                 <TableRow key={lead.row_number}>
                   <TableCell className="font-medium">{lead["Property Owner Name"]}</TableCell>
-                  <TableCell>{lead.Line1}, {lead.Line2}</TableCell>
+                  <TableCell>{[lead.Line1, lead.Line2].filter(Boolean).join(", ")}</TableCell>
                   <TableCell>{lead["Property Type"]}</TableCell>
                   <TableCell>
-                    <div className="flex flex-col">
-                        {(lead["All Emails"] || "").split(',').filter(e => e).map((email) => (
-                            <Badge key={email} variant="outline" className="mb-1 w-fit">{email}</Badge>
+                    <div className="flex flex-col gap-1">
+                        {(lead["All Emails"] || "").split(',').filter(e => e.trim()).map((email) => (
+                            <Badge key={email} variant="secondary" className="w-fit">{email.trim()}</Badge>
                         ))}
                     </div>
                   </TableCell>
-                  <TableCell>{lead.Phone}</TableCell>
+                  <TableCell>
+                    <div className="flex flex-col gap-1">
+                      {(lead.Phone || "").split(',').filter(p => p.trim()).map((phone) => (
+                        <span key={phone} className="text-sm">{phone.trim()}</span>
+                      ))}
+                    </div>
+                  </TableCell>
                   <TableCell>{lead["AI Message"]}</TableCell>
                 </TableRow>
               ))}
