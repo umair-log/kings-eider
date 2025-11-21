@@ -3,13 +3,13 @@
 import * as React from "react";
 import { Loader2, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -21,10 +21,11 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { runAutomation } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 
-const cities = ["NYC", "LA", "SF", "Miami", "Chicago", "Dallas", "Seattle", "Aspen"];
+// const cities = ["NYC", "LA", "SF", "Miami", "Chicago", "Dallas", "Seattle", "Aspen"];
+const defaultCity = "Miami";
 
 export function Automation() {
-  const [city, setCity] = React.useState<string | undefined>(undefined);
+  const [city, setCity] = React.useState<string | undefined>(defaultCity);
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -32,7 +33,7 @@ export function Automation() {
 
   const handleRunAutomation = async () => {
     if (!city) {
-      setError("Please select a city before running the automation.");
+      setError("No city is configured for automation.");
       return;
     }
     setError(null);
@@ -73,7 +74,7 @@ export function Automation() {
           <DialogHeader>
             <DialogTitle>Run Marketing Automation</DialogTitle>
             <DialogDescription>
-              Select a city to start generating new leads. This process can take a few minutes.
+              Click the button to start generating new leads. This process can take a few minutes.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -87,7 +88,7 @@ export function Automation() {
               </div>
             ) : (
               <>
-                <Select onValueChange={setCity} value={city}>
+                {/* <Select onValueChange={setCity} value={city}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a city" />
                   </SelectTrigger>
@@ -98,7 +99,7 @@ export function Automation() {
                       </SelectItem>
                     ))}
                   </SelectContent>
-                </Select>
+                </Select> */}
                 {error && (
                   <Alert variant="destructive">
                     <AlertTitle>Error</AlertTitle>
@@ -106,7 +107,7 @@ export function Automation() {
                   </Alert>
                 )}
                 <Button onClick={handleRunAutomation} className="w-full" disabled={!city}>
-                  Run Automation for {city || "..."}
+                  Run Automation
                 </Button>
               </>
             )}
